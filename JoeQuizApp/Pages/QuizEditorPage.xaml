@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="JoeQuizApp.Pages.QuizEditorPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Common.Models;assembly=Common"
+    xmlns:vm="using:JoeQuizApp.ViewModels"
+    Title="Edit quiz"
+    x:DataType="vm:QuizEditorViewModel">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Frame>
+                <VerticalStackLayout Spacing="5">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="Edit quiz info" />
+                    <Label Text="{Binding SelectedQuiz.Title, Mode=TwoWay}" />
+                    <Entry Placeholder="Edit title" Text="{Binding EditTitle, Mode=TwoWay}" />
+                    <Label Text="{Binding SelectedQuiz.Description, Mode=TwoWay}" />
+                    <Editor Placeholder="Edit quiz description" Text="{Binding EditDescription}" />
+
+                </VerticalStackLayout>
+            </Frame>
+            <Frame>
+                <VerticalStackLayout Spacing="5">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="Add questions" />
+                    <Picker
+                        Title="Filter by category:"
+                        ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" />
+                    <HorizontalStackLayout>
+                        <Button Command="{Binding FilterQuestionsCommand}" Text="Apply filter" />
+                    </HorizontalStackLayout>
+                    <SearchBar
+                        Placeholder="Search for questions"
+                        SearchCommand="{Binding SearchForQuestionCommand}"
+                        Text="{Binding SearchQuery}" />
+                    <Button Command="{Binding ShowAllQuestionsCommand}" Text="Show all questions" />
+                    <CollectionView
+                        ItemsSource="{Binding AllQuestions, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedAddQuestion, Mode=TwoWay}"
+                        SelectionChangedCommand="{Binding AddFromQuestionBankCommand}"
+                        SelectionMode="Single">
+                        <CollectionView.Header>
+                            <VerticalStackLayout Padding="5" BackgroundColor="#2B0B98">
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Click on a question to add it to your quiz"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
+                        </CollectionView.Header>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="{x:Type models:QuestionModel}">
+                                <VerticalStackLayout Margin="3" Spacing="5">
+                                    <Frame
+                                        Margin="5"
+                                        Padding="5"
+                                        BackgroundColor="Azure">
+                                        <Label Text="{Binding QuestionText}" />
+                                    </Frame>
+                                </VerticalStackLayout>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                </VerticalStackLayout>
+
+
+            </Frame>
+
+            <Frame>
+                <VerticalStackLayout Spacing="5">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="Question overview" />
+
+                    <CollectionView
+                        ItemsSource="{Binding QuizQuestions, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
+                        SelectedItem="{Binding RemoveThisQuestion, Mode=TwoWay}"
+                        SelectionChangedCommand="{Binding RemoveQuestionFromQuizCommand}"
+                        SelectionMode="Single">
+                        <CollectionView.Header>
+                            <VerticalStackLayout Padding="5" BackgroundColor="#2B0B98">
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Click on a question to remove it from your quiz"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
+                        </CollectionView.Header>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="{x:Type models:QuestionModel}">
+                                <VerticalStackLayout Margin="3" Spacing="5">
+                                    <Frame
+                                        Margin="5"
+                                        Padding="5"
+                                        BackgroundColor="Azure">
+                                        <Label Text="{Binding QuestionText}" />
+                                    </Frame>
+                                </VerticalStackLayout>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </Frame>
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Button Command="{Binding UpdateQuizCommand}" Text="Save changes" />
+                <Button
+                    BackgroundColor="DarkRed"
+                    Command="{Binding DeleteQuizCommand}"
+                    Text="Delete" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

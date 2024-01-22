@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="JoeQuizApp.Pages.CreateQuizPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="using:JoeQuizApp.ViewModels"
+    Title="Create Quiz"
+    x:DataType="vm:CreateQuizViewModel">
+    <VerticalStackLayout Padding="20">
+        <Frame>
+            <VerticalStackLayout Spacing="10">
+                <Entry Placeholder="Give your quiz a name" Text="{Binding EntryTitle, Mode=TwoWay}" />
+                <Editor Placeholder="Describe your quiz" Text="{Binding EntryDescription, Mode=TwoWay}" />
+                <Button
+                    Command="{Binding CreateNewQuizCommand}"
+                    FontAttributes="Bold"
+                    Text="Save" />
+            </VerticalStackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="JoeQuizApp.Pages.QuestionManager"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Common.Models;assembly=Common"
+    xmlns:vm="using:JoeQuizApp.ViewModels"
+    Title="Question Manager"
+    x:DataType="vm:QuestionManagerViewModel">
+    <ScrollView>
+
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Frame>
+                <VerticalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        Text="Create a new question" />
+                    <Entry Placeholder="Formulate your question" Text="{Binding EditQuestionText, Mode=TwoWay}" />
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        Text="Enter 3 answer alternatives, and check the correct answer" />
+                    <Grid ColumnDefinitions="*, auto">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Entry Placeholder="Answer alternative #1" Text="{Binding EditFirstAlternativeText, Mode=TwoWay}" />
+                            <Entry Placeholder="Answer alternative #2" Text="{Binding EditSecondAlternativeText, Mode=TwoWay}" />
+                            <Entry Placeholder="Answer alternative #3" Text="{Binding EditThirdAlternativeText, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <RadioButton IsChecked="{Binding EditFirstAlternativeIsCorrect, Mode=TwoWay}" />
+                            <RadioButton IsChecked="{Binding EditSecondAlternativeIsCorrect, Mode=TwoWay}" />
+                            <RadioButton IsChecked="{Binding EditThirdAlternativeIsCorrect, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        Text="Categorize your question" />
+                    <Picker
+                        Title="Re-use category"
+                        ItemsSource="{Binding CategoryBank, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedAddFromBankCategory, Mode=TwoWay}" />
+                    <Button Command="{Binding AddCategoryToQuestionFromBankCommand}" Text="Add category" />
+                    <Label Text="Or add new category" />
+                    <Entry Placeholder="Separate multiple categories with commas" Text="{Binding CategoryEntries, Mode=TwoWay}" />
+                    <Button Command="{Binding AddNewCategoriesToQuestionCommand}" Text="Add new category/categories" />
+
+                    <VerticalStackLayout Padding="5" BackgroundColor="#2B0B98">
+                        <Label
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            Text="Added Categories (click a category to remove it)"
+                            TextColor="White" />
+                    </VerticalStackLayout>
+                    <CollectionView
+                        ItemsLayout="HorizontalList"
+                        ItemsSource="{Binding NewQuestionCategories}"
+                        SelectedItem="{Binding RemoveThisCategory}"
+                        SelectionChangedCommand="{Binding RemoveCategoryCommand}"
+                        SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="{x:Type models:CategoryModel}">
+                                <HorizontalStackLayout Spacing="5">
+                                    <Frame
+                                        Margin="5"
+                                        Padding="5"
+                                        BackgroundColor="Azure">
+                                        <Label Text="{Binding Name}" />
+                                    </Frame>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                    <Button
+                        Command="{Binding CreateQuestionCommand}"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="Add new question" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame>
+                <VerticalStackLayout Spacing="5">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="Question overview" />
+
+                    <CollectionView
+                        ItemsSource="{Binding AllQuestions, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
+                        SelectedItem="{Binding SelectedQuestion}"
+                        SelectionChangedCommand="{Binding NavToEditQuestionCommand}"
+                        SelectionMode="Single">
+                        <CollectionView.Header>
+                            <VerticalStackLayout Padding="5" BackgroundColor="#2B0B98">
+                                <Label
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Select a question to edit it"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
+                        </CollectionView.Header>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="{x:Type models:QuestionModel}">
+                                <HorizontalStackLayout Padding="10,0,0,0" Spacing="10">
+                                    <Frame
+                                        Margin="5"
+                                        Padding="5"
+                                        BackgroundColor="Azure">
+                                        <Label Text="{Binding QuestionText}" />
+                                    </Frame>
+                                </HorizontalStackLayout>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+
+                </VerticalStackLayout>
+            </Frame>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

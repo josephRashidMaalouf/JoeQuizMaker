@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="JoeQuizApp.Pages.EditQuestion"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Common.Models;assembly=Common"
+    xmlns:vm="using:JoeQuizApp.ViewModels"
+    Title="Edit Question"
+    x:DataType="vm:EditQuestionViewModel">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Frame>
+                <VerticalStackLayout Spacing="5">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="Update question" />
+
+                    <Label Text="{Binding SelectedQuestion.QuestionText, Mode=TwoWay}" />
+                    <Entry Placeholder="Edit question text" Text="{Binding EditQuestionText, Mode=TwoWay}" />
+
+                    <Grid ColumnDefinitions="*, auto" RowDefinitions="*,*,*,*,*,*">
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="{Binding QuestionFirstAlternativeText, Mode=TwoWay}" />
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Placeholder="Edit answer alternative #1"
+                            Text="{Binding EditAlternativeOneText, Mode=TwoWay}" />
+
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="{Binding QuestionSecondAlternativeText, Mode=TwoWay}" />
+                        <Entry
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Placeholder="Edit answer alternative #2"
+                            Text="{Binding EditAlternativeTwoText, Mode=TwoWay}" />
+
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Text="{Binding QuestionThirdAlternativeText, Mode=TwoWay}" />
+                        <Entry
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Placeholder="Edit answer alternative #3"
+                            Text="{Binding EditAlternativeThreeText, Mode=TwoWay}" />
+
+
+                        <RadioButton
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsChecked="{Binding EditAlternativeOneIsCorrect, Mode=TwoWay}" />
+                        <RadioButton
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            IsChecked="{Binding EditAlternativeTwoIsCorrect, Mode=TwoWay}" />
+                        <RadioButton
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            IsChecked="{Binding EditAlternativeThreeIsCorrect, Mode=TwoWay}" />
+                    </Grid>
+
+
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        Text="Edit question categories" />
+                    <Picker
+                        Title="Re-use category"
+                        ItemsSource="{Binding CategoryBank, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedAddFromBankCategory}" />
+                    <Button Command="{Binding AddCategoryToQuestionFromBankCommand}" Text="Add category" />
+                    <Label Text="Or add new category" />
+                    <Entry Placeholder="Separate multiple categories with commas" Text="{Binding CategoryEntries}" />
+                    <Button Command="{Binding AddNewCategoriesToQuestionCommand}" Text="Add new category/categories" />
+
+                    <VerticalStackLayout Padding="5" BackgroundColor="#2B0B98">
+                        <Label
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            Text="Added Categories (click a category to remove it)"
+                            TextColor="White" />
+                    </VerticalStackLayout>
+                    <CollectionView
+                        ItemsLayout="HorizontalList"
+                        ItemsSource="{Binding UpdateQuestionCategories, Mode=TwoWay}"
+                        SelectedItem="{Binding RemoveThisCategory, Mode=TwoWay}"
+                        SelectionChangedCommand="{Binding RemoveCategoryCommand}"
+                        SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="{x:Type models:CategoryModel}">
+                                <HorizontalStackLayout Spacing="5">
+                                    <Frame
+                                        Margin="5"
+                                        Padding="5"
+                                        BackgroundColor="Azure">
+                                        <Label Text="{Binding Name}" />
+                                    </Frame>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                    <HorizontalStackLayout HorizontalOptions="End" Spacing="5">
+                        <Button
+                            Command="{Binding UpdateQuestionCommand}"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Update question" />
+                        <Button
+                            BackgroundColor="DarkRed"
+                            Command="{Binding DeleteQuestionCommand}"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Delete from question bank"
+                            TextColor="White" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

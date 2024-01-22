@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="JoeQuizApp.Pages.ChooseQuizToPlayPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Common.Models;assembly=Common"
+    xmlns:vm="using:JoeQuizApp.ViewModels"
+    Title="Play"
+    x:DataType="vm:ChooseQuizViewModel">
+    <ScrollView>
+        <Frame>
+            <ScrollView>
+                <CollectionView
+                    ItemsSource="{Binding Quizzes, Mode=TwoWay}"
+                    SelectedItem="{Binding SelectedQuiz, Mode=TwoWay, UpdateSourceEventName=OnPropertyChanged}"
+                    SelectionChangedCommand="{Binding NavToPlayQuizCommand}"
+                    SelectionMode="Single">
+                    <CollectionView.Header>
+                        <VerticalStackLayout Padding="5" BackgroundColor="#2B0B98">
+                            <Label
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                Text="Select a quiz to play it"
+                                TextColor="White" />
+                        </VerticalStackLayout>
+                    </CollectionView.Header>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type models:QuizModel}">
+                            <Label FontAttributes="Bold" Text="{Binding Title}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </ScrollView>
+        </Frame>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="JoeQuizApp.Pages.PlayQuizPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Models="clr-namespace:Common.Models;assembly=Common"
+    xmlns:vm="using:JoeQuizApp.ViewModels"
+    Title="{Binding SelectedQuiz.Title}"
+    x:DataType="vm:PlayQuizViewModel">
+    <ScrollView>
+
+
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Label FontAttributes="Italic" Text="{Binding SelectedQuiz.Description}" />
+
+
+            <CollectionView ItemsSource="{Binding SelectedQuiz.Questions}">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type Models:QuestionModel}">
+                        <VerticalStackLayout Padding="10">
+                            <Frame>
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding QuestionText}" />
+                                    <Grid ColumnDefinitions="*, auto" RowDefinitions="*,*,*">
+
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Text="{Binding FirstAlternativeText, Mode=TwoWay}" />
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="{Binding SecondAlternativeText, Mode=TwoWay}" />
+                                        <Label
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Text="{Binding ThirdAlternativeText, Mode=TwoWay}" />
+
+                                        <RadioButton
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            IsChecked="{Binding FirstAlternativeGuess, Mode=TwoWay}" />
+                                        <RadioButton
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            IsChecked="{Binding SecondAlternativeGuess, Mode=TwoWay}" />
+                                        <RadioButton
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            IsChecked="{Binding ThirdAlternativeGuess, Mode=TwoWay}" />
+
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Submit" Command="{Binding CorrectQuizCommand}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
