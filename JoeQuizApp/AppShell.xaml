@@ -10,6 +10,9 @@
     FlyoutBehavior="{OnIdiom Phone=Flyout,
                              Default=Locked}"
     TitleColor="White">
+    <Shell.FlyoutHeader>
+        <Image Source="joequizz_logo.png" />
+    </Shell.FlyoutHeader>
 
     <FlyoutItem Title="Quiz manager">
         <ShellContent Title="Quiz manager" ContentTemplate="{DataTemplate pages:QuizListPage}" />
